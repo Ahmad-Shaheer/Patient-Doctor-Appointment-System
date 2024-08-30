@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CureMD Appointment Management System - Login</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Boxicons CSS -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e90ff, #87cefa);
+            position: relative;
+            overflow: hidden;
+        }
+        .background-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 6rem;
+            white-space: nowrap;
+            z-index: 0;
+            font-weight: bold;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        .login-container h1 {
+            font-size: 36px;
+            color: #1e90ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-control {
+            border-radius: 30px;
+            padding: 15px;
+            font-size: 16px;
+        }
+        .form-control::placeholder {
+            color: #a9a9a9;
+        }
+        .btn-primary {
+            background-color: #1e90ff;
+            border: none;
+            border-radius: 30px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .btn-primary:hover {
+            background-color: #187bcd;
+        }
+        .form-check-label {
+            color: #1e90ff;
+        }
+        .form-check-input:checked {
+            background-color: #1e90ff;
+            border-color: #1e90ff;
+        }
+        .forgot-password, .register-link, .switch-login {
+            text-align: center;
+            color: #1e90ff;
+        }
+        .forgot-password a, .register-link a, .switch-login a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        .forgot-password a:hover, .register-link a:hover, .switch-login a:hover {
+            text-decoration: underline;
+        }
+        .btn-secondary {
+            background-color: #87cefa;
+            border: none;
+            border-radius: 30px;
+            padding: 10px;
+            font-size: 16px;
+            color: #1e90ff;
+        }
+        .btn-secondary:hover {
+            background-color: #77b4e0;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-title">CureMD</div>
+    
+    <div class="login-container">
+        <form action="/doctor-login" method="POST"> 
+            <h1>Doctor Login</h1>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="rememberMe">
+                <label class="form-check-label" for="rememberMe">Remember Me</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+            
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    <div class="alert alert-{{ messages[0][0] }}">
+                        {{ messages[0][1] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <div class="forgot-password my-3">
+                <a href="#">Forgot Password?</a>
+            </div>
+            <div class="register-link">
+                <p>Don't have an account? <a href="index">Register</a></p>
+            </div>
+            <div class="switch-login mt-3">
+                <p>Not a doctor? <a href="patient-login">Sign in as Patient</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function switchLogin() {
+            if (confirm("Do you want to switch login type?")) {
+                window.location.href = 'switch-login.html'; // Adjust this URL based on your logic
+            }
+        }
+    </script>
+</body>
+</html>
