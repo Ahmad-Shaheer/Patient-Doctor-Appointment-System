@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CureMD Appointment Management System - Welcome</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Boxicons CSS -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e90ff, #87cefa);
+            position: relative;
+            overflow: hidden;
+        }
+        .background-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 6rem;
+            white-space: nowrap;
+            z-index: 0;
+            font-weight: bold;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        .login-container h1 {
+            font-size: 36px;
+            color: #1e90ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .btn-secondary {
+            background-color: #87cefa;
+            border: none;
+            border-radius: 30px;
+            padding: 15px;
+            font-size: 16px;
+            color: #1e90ff;
+        }
+        .btn-secondary:hover {
+            background-color: #77b4e0;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .btn-container .btn {
+            flex: 1;
+            margin: 0 10px;
+        }
+        .register-link {
+            text-align: center;
+            color: #1e90ff;
+        }
+        .register-link a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-title">CureMD</div>
+    
+    <div class="login-container">
+        <h1>Welcome</h1>
+        <div class="btn-container">
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='register-doctor';">Register as Doctor</button>
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='register-patient';">Register as Patient</button>
+        </div>
+        <div class="register-link">
+            <p>Already have an account? <a href="patient-login">Sign In</a></p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
