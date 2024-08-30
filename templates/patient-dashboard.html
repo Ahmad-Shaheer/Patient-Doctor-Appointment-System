@@ -174,13 +174,6 @@
                     <h3>Welcome, {{ patient.name }}</h3>
                     <p><strong>Email:</strong> {{ patient.email }}</p>
                 </div>
-
-                <!-- Available Dates Section (moved to left column) -->
-                <div id="available-dates-list" class="mt-4">
-                    <!-- Dates will be populated here dynamically -->
-                    <h5>Available Doctor Dates</h5>
-                    <!-- Placeholder for dynamic content -->
-                </div>
             </div>
 
             <!-- Appointments Section -->
@@ -217,51 +210,51 @@
                 </div>
            
                 <!-- Book New Appointment -->
-<!-- Book New Appointment -->
-                <div class="card mt-4">
-                    <div class="card-header">
-                        Book a New Appointment
-                    </div>
-                    <div class="card-body">
-                        <form id="bookingForm" action="/booked_appointment" method="post">
-                            <div class="mb-3">
-                                <label for="specialization" class="form-label">Select Specialization</label>
-                                <select class="form-select" id="specialization" name="specialization">
-                                    <option value="">Select Specialization</option>
-                                    {% for specialization in specializations %}
-                                    <option value="{{ specialization }}" {% if specialization == selected_specialization %}selected{% endif %}>{{ specialization }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="doctor" class="form-label">Select Doctor</label>
-                                <select class="form-select" id="doctor" name="doctor_id">
-                                    <option value="">Select Doctor</option>
-                                </select>
-                            </div>
+<div class="card mt-4">
+    <div class="card-header">
+        Book a New Appointment
+    </div>
+    <div class="card-body">
+        <form id="bookingForm" action="/booked_appointment" method="post">
+            <div class="mb-3">
+                <label for="specialization" class="form-label">Select Specialization</label>
+                <select class="form-select" id="specialization" name="specialization">
+                    <option value="">Select Specialization</option>
+                    {% for specialization in specializations %}
+                    <option value="{{ specialization }}" {% if specialization == selected_specialization %}selected{% endif %}>{{ specialization }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="doctor" class="form-label">Select Doctor</label>
+                <select class="form-select" id="doctor" name="doctor_id">
+                    <option value="">Select Doctor</option>
+                </select>
+            </div>
 
-                            <div class="mb-3">
-                                <label for="appointment_date" class="form-label">Select Date</label>
-                                <select class="form-select" id="appointment_date" name="appointment_date" required>
-                                    <option value="">Select Date</option>
-                                </select>
-                            </div>
+            <div class="mb-3">
+                <label for="appointment_date" class="form-label">Select Date</label>
+                <select class="form-select" id="appointment_date" name="appointment_date" required>
+                    <option value="">Select Date</option>
+                </select>
+            </div>
 
-                            <div class="mb-3">
-                                <label for="time_slot" class="form-label">Select Time Slot</label>
-                                <select class="form-select" id="time_slot" name="time_slot" disabled>
-                                    <option value="">Select Time Slot</option>
-                                </select>
-                            </div>
+            <div class="mb-3">
+                <label for="time_slot" class="form-label">Select Time Slot</label>
+                <select class="form-select" id="time_slot" name="time_slot" disabled>
+                    <option value="">Select Time Slot</option>
+                </select>
+            </div>
 
-                            <div class="mb-3">
-                                <label for="reason" class="form-label">Reason</label>
-                                <input type="text" class="form-control" id="reason" name="reason" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Book Appointment</button>
-                        </form>
-                    </div>
-                
+            <div class="mb-3">
+                <label for="reason" class="form-label">Reason</label>
+                <input type="text" class="form-control" id="reason" name="reason" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Book Appointment</button>
+        </form>
+    </div>
+</div>
+
 
                 </div>
             </div>
@@ -369,30 +362,24 @@
     });
     document.getElementById('doctor').addEventListener('change', function() {
         var doctorId = this.value;
-        var availableDatesList = document.getElementById('available-dates-list');
-        availableDatesList.innerHTML = ''; // Clear existing dates
+        var appointmentDateSelect = document.getElementById('appointment_date');
+        appointmentDateSelect.innerHTML = '<option value="">Select Date</option>'; // Reset the dropdown
     
         if (doctorId) {
             fetch(`/get_available_dates?doctor_id=${doctorId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.available_dates && data.available_dates.length > 0) {
-                        data.available_dates.forEach(date => {
-                            var button = document.createElement('button');
-                            button.textContent = date;
-                            button.className = 'btn btn-primary mb-2'; // Add some styling
-                            button.onclick = function() {
-                                var dateInput = document.getElementById('appointment_date');
-                                dateInput.value = date;
-    
-                                // Manually trigger the change event on the date input
-                                var event = new Event('change', { bubbles: true });
-                                dateInput.dispatchEvent(event);
-                            };
-                            availableDatesList.appendChild(button);
+                        // Limit to the first 14 dates
+                        var dates = data.available_dates.slice(0, 14);
+                        dates.forEach(date => {
+                            var option = document.createElement('option');
+                            option.value = date;
+                            option.textContent = date;
+                            appointmentDateSelect.appendChild(option);
                         });
                     } else {
-                        availableDatesList.innerHTML = '<p>No available dates for this doctor.</p>';
+                        appointmentDateSelect.innerHTML = '<option>No available dates for this doctor.</option>';
                     }
                 })
                 .catch(error => console.error('Error fetching available dates:', error));
