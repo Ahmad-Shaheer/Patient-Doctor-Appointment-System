@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+   
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -122,6 +122,7 @@
 </head>
 
 <body>
+
     <!-- Sidebar -->
     <div class="sidebar">
         <a href="patient_dashboard" title="Home">
@@ -221,19 +222,20 @@
                         <input type="hidden" name="appointment_id" id="rescheduleAppointmentId">
                         <input type="hidden" name="doctor_id" id="rescheduleDoctorId">
 
-
                          <!-- Date Selection -->
-                    <label for="newDate" class="form-label">New Date</label>
-                    <input type="date" class="form-control" name="new_date" id="newDate" required>
+                        <label for="newDate" class="form-label">New Date</label>
+                        <select class="form-control" name="new_date" id="newDate" required>
+                            <option value="" disabled selected>Select a date</option>
+                        </select>
                     
-                    <!-- Time Slot Selection -->
-                    <label for="newTimeSlot" class="form-label mt-2">Available Time Slots</label>
-                    <select class="form-control" name="new_time_slot" id="newTimeSlot" required>
-                        <option value="" disabled selected>Select a time slot</option>
-                    </select>
+                        <!-- Time Slot Selection -->
+                        <label for="newTimeSlot" class="form-label mt-2">Available Time Slots</label>
+                        <select class="form-control" name="new_time_slot" id="newTimeSlot" required>
+                            <option value="" disabled selected>Select a time slot</option>
+                        </select>
                     
-                    <div id="rescheduleError" class="text-danger mt-2" style="display: none;"></div>
-                </form>
+                        <div id="rescheduleError" class="text-danger mt-2" style="display: none;"></div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -253,131 +255,112 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to cancel this appointment?</p>
+                    <!-- Form for canceling the appointment -->
                     <form id="cancelForm" action="/cancel_appointment" method="post">
-                        <input type="hidden" name="appointment_id" id="cancelAppointmentId">
+                        <!-- Hidden input field for the appointment ID -->
+                        <input type="hidden" name="appointment_id" id="cancelAppointmentId" <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="cancelModalLabel">Cancel Appointment</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to cancel this appointment?</p>
+                                        <!-- Form for canceling the appointment -->
+                                        <form id="cancelForm" action="/cancel_appointment" method="post">
+                                            <!-- Hidden input field for the appointment ID -->
+                                            <input type="hidden" name="appointment_id" id="cancelAppointmentId" value="{{ appointment._id }}">
+                                            <!-- Button to submit the form -->
+                                            <button type="submit" class="btn btn-danger">Cancel Appointment</button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         >
+                        <!-- Button to submit the form -->
+                        <button type="submit" class="btn btn-danger">Cancel Appointment</button>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" id="cancelSubmit">Confirm</button>
                 </div>
             </div>
         </div>
     </div>
+    
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS and dependencies (Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-    <!-- Custom JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Reschedule Modal
-            const rescheduleModal = document.getElementById('rescheduleModal');
-            const rescheduleForm = document.getElementById('rescheduleForm');
-            const rescheduleError = document.getElementById('rescheduleError');
-            const rescheduleSubmit = document.getElementById('rescheduleSubmit');
-            const newDateInput = document.getElementById('newDate');
-            const newTimeSlotSelect = document.getElementById('newTimeSlot');
-        
-            // Handle Modal Show Event
-            rescheduleModal.addEventListener('show.bs.modal', (event) => {
-                const button = event.relatedTarget;
-                const appointmentId = button.getAttribute('data-id');
-                const doctorId = button.getAttribute('data-doctor');
-        
-                rescheduleForm.querySelector('#rescheduleAppointmentId').value = appointmentId;
-                rescheduleForm.querySelector('#rescheduleDoctorId').value = doctorId;
-        
-                // Clear existing timeslots and errors
-                newTimeSlotSelect.innerHTML = '<option value="" disabled selected>Select a time slot</option>';
-                rescheduleError.style.display = 'none';
-            });
-        
-            // Fetch Available Time Slots when Date is Selected
-            newDateInput.addEventListener('change', () => {
-                const selectedDate = newDateInput.value;
-                const doctorId = rescheduleForm.querySelector('#rescheduleDoctorId').value;
-        
-                if (selectedDate) {
-                    fetch(`/get_available_timeslots?doctor_id=${doctorId}&date=${selectedDate}`)
-                        .then(response => response.json())
-                        .then(timeSlots => {
-                            // Populate Time Slot Dropdown
-                            newTimeSlotSelect.innerHTML = '<option value="" disabled selected>Select a time slot</option>';
-                            timeSlots.forEach(slot => {
-                                const option = document.createElement('option');
-                                option.value = slot;
-                                option.textContent = slot;
-                                newTimeSlotSelect.appendChild(option);
-                            });
-                        })
-                        .catch(() => {
-                            rescheduleError.textContent = "Failed to fetch available time slots. Please try again.";
-                            rescheduleError.style.display = 'block';
-                        });
-                }
-            });
-        
-            // Handle Form Submission
-            rescheduleSubmit.addEventListener('click', () => {
-                const selectedDate = newDateInput.value;
-                const selectedTimeSlot = newTimeSlotSelect.value;
-                const currentDate = new Date();
-        
-                if (!selectedDate || !selectedTimeSlot) {
-                    rescheduleError.textContent = "Please select both a date and a time slot.";
-                    rescheduleError.style.display = 'block';
-                    return;
-                }
-        
-                if (new Date(selectedDate) <= currentDate) {
-                    rescheduleError.textContent = "Please select a future date.";
-                    rescheduleError.style.display = 'block';
-                    return;
-                }
-                fetch('/reschedule_appointment', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams(new FormData(rescheduleForm))
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Appointment rescheduled successfully.');
-                        window.location.href = '/booked_appointments';  // Redirect to patient dashboard
+        // JavaScript to handle modals and reschedule form submission
+        document.addEventListener("DOMContentLoaded", function () {
+            const rescheduleModal = document.getElementById("rescheduleModal");
+            const rescheduleForm = document.getElementById("rescheduleForm");
+            const newDate = document.getElementById("newDate");
+            const newTimeSlot = document.getElementById("newTimeSlot");
 
-                    } else {
-                        rescheduleError.textContent = data.error;
-                        rescheduleError.style.display = 'block';
-                    }
-                })
-                .catch(() => {
-                    rescheduleError.textContent = "An error occurred while rescheduling the appointment.";
-                    rescheduleError.style.display = 'block';
-                });
+            rescheduleModal.addEventListener("show.bs.modal", function (event) {
+                const button = event.relatedTarget;
+                const appointmentId = button.getAttribute("data-id");
+                const doctorId = button.getAttribute("data-doctor");
+
+                document.getElementById("rescheduleAppointmentId").value = appointmentId;
+                document.getElementById("rescheduleDoctorId").value = doctorId;
+
+                // Fetch available dates
+                getAvailableDates(doctorId);
+            });
+
+            // Fetch available dates for the doctor
+            function getAvailableDates(doctorId) {
+                fetch(`/get_available_dates?doctor_id=${doctorId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Populate date dropdown
+                        newDate.innerHTML = '<option value="" disabled selected>Select a date</option>';
+                        data.available_dates.forEach(date => {
+                            const option = document.createElement("option");
+                            option.value = date;
+                            option.textContent = date;
+                            newDate.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error("Error fetching available dates:", error));
+            }
+
+            // Fetch available time slots when a new date is selected
+            newDate.addEventListener("change", function () {
+                const selectedDate = newDate.value;
+                const doctorId = document.getElementById("rescheduleDoctorId").value;
+
+                fetch(`/get_available_timeslots?doctor_id=${doctorId}&date=${selectedDate}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Populate time slot dropdown
+                        newTimeSlot.innerHTML = '<option value="" disabled selected>Select a time slot</option>';
+                        data.forEach(timeSlot => {
+                            const option = document.createElement("option");
+                            option.value = timeSlot;
+                            option.textContent = timeSlot;
+                            newTimeSlot.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error("Error fetching available time slots:", error));
+            });
+            
+            // Handle reschedule submission
+            document.getElementById("rescheduleSubmit").addEventListener("click", function () {
                 rescheduleForm.submit();
             });
-
-            // Cancel Modal
-            const cancelModal = document.getElementById('cancelModal');
-            const cancelForm = document.getElementById('cancelForm');
-            const cancelSubmit = document.getElementById('cancelSubmit');
-
-            cancelModal.addEventListener('show.bs.modal', (event) => {
-                const button = event.relatedTarget;
-                const appointmentId = button.getAttribute('data-id');
-                
-                cancelForm.querySelector('#cancelAppointmentId').value = appointmentId;
-            });
-
-            cancelSubmit.addEventListener('click', () => {
-                cancelForm.submit();
-            });
+           
         });
-
     </script>
 </body>
 

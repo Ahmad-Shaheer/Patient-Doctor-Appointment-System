@@ -37,7 +37,7 @@ def get_available_timeslots():
     doctor_id = request.args.get('doctor_id')
     date = request.args.get('date')
     print(doctor_id)
-    print(date)
+    print(f'THE TIMESLOT FUNCTION IS WORKING                          {date}' )
     if not doctor_id or not date:
         return jsonify([])  # Return an empty list if no doctor_id or date is provided
 
@@ -321,7 +321,7 @@ def reschedule_appointment():
     doctor_id = request.form.get('doctor_id')
     new_date = request.form.get('new_date')
     new_time_slot = request.form.get('new_time_slot')
-
+    print('this is the APPOINTMENT ID FROM RESCHEDULING', appointment_id)
     if not appointment_id or not doctor_id or not new_date or not new_time_slot:
         return jsonify({"error": "Missing required fields."}), 400
 
@@ -356,11 +356,12 @@ def reschedule_appointment():
         array_filters=[{"slot": new_time_slot}]
     )
 
-    return jsonify({"success": True})
+    return redirect(url_for('manage_appointments'))
 
 @app.route('/cancel_appointment', methods=['POST'])
 def cancel_appointment():
     appointment_id = request.form.get('appointment_id')
+    print('this is the appointment id', appointment_id)
     print(' appointment id:', appointment_id)
     if not appointment_id:
         return jsonify({"error": "Invalid appointment ID."}), 400
