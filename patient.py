@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from datetime import datetime, timedelta
+from flask_mail import Mail, Message
+from apscheduler.schedulers.background import BackgroundScheduler
 import pytz
 
 app = Flask(__name__)
@@ -12,6 +14,61 @@ app.config["MONGO_URI"] = "mongodb://localhost:27017/Appointment"  # Use your ac
 mongo = PyMongo(app)
 patients_collection = mongo.db.patients
 doctors_collection =mongo.db.doctors
+
+# Flask-Mail configuration
+app.config['MAIL_SERVER'] = 'smtp.example.com'  # Replace with your mail server
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'your_email@example.com'  # Replace with your email
+app.config['MAIL_PASSWORD'] = 'your_password'  # Replace with your email password
+app.config['MAIL_DEFAULT_SENDER'] = 'your_email@example.com'
+mail = Mail(app)
+
+# Scheduler for sending emails
+scheduler = BackgroundScheduler(timezone='UTC')
+scheduler.start()
+
+
+# Utility function to send email
+def send_reminder_email(appointment):
+    doctor = doctors_collection.find_one({"_id": ObjectId(appointment['doctor_id'])})
+    patient = patients_collection.find_one({"_id": ObjectId(appointment['patient_id'])})
+
+    if not doctor or not patient:
+        print(f"Doctor or patient not found for appointment ID: {appointment['_id']}")
+        return
+
+    doctor_email = doctor['email']
+    patient_email = patient['email']
+
+    subject = "Appointment Reminder"
+    body = f"Dear {doctor['name']} and {patient['full_name']},\n\nThis is a reminder for your upcoming appointment at {appointment['time']} on {appointment['date']}."
+
+    msg = Message(subject, recipients=[doctor_email, patient_email])
+    msg.body = body
+
+    try:
+        mail.send(msg)
+        print(f"Reminder email sent successfully for appointment ID: {appointment['_id']}")
+    except Exception as e:
+        print(f"Failed to send reminder email: {e}")
+
+# Schedule email reminders for all future appointments
+def schedule_email_reminders():
+    now = datetime.now(pytz.UTC)
+    upcoming_appointments = mongo.db.appointments.find({"date": {"$gte": now.strftime('%Y-%m-%d')}})
+
+    for appointment in upcoming_appointments:
+        appointment_datetime = datetime.strptime(f"{appointment['date']} {appointment['time'].split('-')[0]}", '%Y-%m-%d %H:%M')
+        appointment_datetime = pytz.UTC.localize(appointment_datetime)
+        reminder_time = appointment_datetime - timedelta(hours=1)
+
+        if reminder_time > now:
+            scheduler.add_job(send_reminder_email, 'date', run_date=reminder_time, args=[appointment])
+            print(f"Scheduled email reminder for appointment ID: {appointment['_id']} at {reminder_time}")
+
+# Run scheduler to update reminders whenever the application starts
+schedule_email_reminders()
 
 
 ''' Helping Functions'''
