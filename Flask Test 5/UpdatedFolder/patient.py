@@ -37,7 +37,7 @@ def get_available_timeslots():
     doctor_id = request.args.get('doctor_id')
     date = request.args.get('date')
     print(doctor_id)
-    print(f'THE TIMESLOT FUNCTION IS WORKING                          {date}' )
+    print(date)
     if not doctor_id or not date:
         return jsonify([])  # Return an empty list if no doctor_id or date is provided
 
@@ -272,7 +272,7 @@ def book_appointment():
         "doctor_id": doctor_id,
         "date": appointment_date,  # Extract date part
         "time": time_slot,  # Extract time part
-        "status": "scheduled",
+        "status": "Scheduled",
         "reason": reason  # You can set this to any default value or retrieve from form
     }
 
@@ -313,7 +313,6 @@ def manage_appointments():
     for appointment in appointments:
         appointment['doctor_name'] = doctor_names.get(str(appointment['doctor_id']), 'Unknown')
         appointment['_id_str'] = str(appointment['_id'])[:6]
-    print('this is the appointment list:', appointments) 
     return render_template('booked_appointments.html', appointments=appointments)
 
 @app.route('/reschedule_appointment', methods=['POST'])
@@ -322,7 +321,7 @@ def reschedule_appointment():
     doctor_id = request.form.get('doctor_id')
     new_date = request.form.get('new_date')
     new_time_slot = request.form.get('new_time_slot')
-    print('this is the APPOINTMENT ID FROM RESCHEDULING', appointment_id)
+
     if not appointment_id or not doctor_id or not new_date or not new_time_slot:
         return jsonify({"error": "Missing required fields."}), 400
 
@@ -362,8 +361,8 @@ def reschedule_appointment():
 @app.route('/cancel_appointment', methods=['POST'])
 def cancel_appointment():
     appointment_id = request.form.get('appointment_id')
-    print('this is the appointment id', appointment_id)
     print(' appointment id:', appointment_id)
+    print('Appointment ID')
     if not appointment_id:
         return jsonify({"error": "Invalid appointment ID."}), 400
 
@@ -527,6 +526,19 @@ def set_working_hours():
     print(f'Successfully updated availability for dates: {date_range}')
     return redirect(url_for('doctor_dashboard'))
 
+@app.route('/logout', methods=['POST', 'GET'])
+def logout():
+    # Clear all session data
+    session.clear()
+    # Redirect to the login page
+    return redirect(url_for('patient_login'))
+
+@app.route('/doctor_logout', methods=['GET'])
+def doctor_logout():
+    # Clear the session
+    session.clear()
+    # Redirect to the doctor login page
+    return redirect(url_for('doctor_login'))  # Replace 'doctor_login' with your actual login route for doctors
 
 if __name__ == '__main__':
     app.run(debug=True)

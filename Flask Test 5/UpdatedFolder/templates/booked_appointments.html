@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-   
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -122,7 +122,6 @@
 </head>
 
 <body>
-
     <!-- Sidebar -->
     <div class="sidebar">
         <a href="patient_dashboard" title="Home">
@@ -201,7 +200,6 @@
                                     </td>
                                 </tr>
                                 {% endfor %}
-                               
                             </tbody>
                         </table>
                     </div>
@@ -210,8 +208,8 @@
         </div>
     </div>
 
-    <!-- Reschedule Modal -->
-    <div class="modal fade" id="rescheduleModal" tabindex="-1" aria-labelledby="rescheduleModalLabel" aria-hidden="true">
+     <!-- Reschedule Modal -->
+     <div class="modal fade" id="rescheduleModal" tabindex="-1" aria-labelledby="rescheduleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -245,8 +243,8 @@
             </div>
         </div>
     </div>
+  <!-- Cancel Modal -->
 
-    <!-- Cancel Modal -->
     <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -256,69 +254,44 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to cancel this appointment?</p>
-                    <!-- Form for canceling the appointment -->
+                    <!-- Form to cancel the appointment -->
                     <form id="cancelForm" action="/cancel_appointment" method="post">
-                        <!-- Hidden input field for the appointment ID -->
-                        <input type="hidden" name="appointment_id" id="cancelAppointmentId" <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="cancelModalLabel">Cancel Appointment</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Are you sure you want to cancel this appointment?</p>
-                                        <!-- Form for canceling the appointment -->
-                                        <form id="cancelForm" action="/cancel_appointment" method="post">
-                                            <!-- Hidden input field for the appointment ID -->
-                                            <input type="hidden" name="appointment_id" id="cancelAppointmentId" value="{{ appointment._id }}">
-                                            <!-- Button to submit the form -->
-                                            <button type="submit" class="btn btn-danger">Cancel Appointment</button>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                         >
-                        <!-- Button to submit the form -->
-                        <button type="submit" class="btn btn-danger">Cancel Appointment</button>
+                        <input type="hidden" name="appointment_id" id="cancelAppointmentId">
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!-- Updated button with onclick event to submit the form -->
+                    <button type="button" class="btn btn-danger" id="cancelSubmit" onclick="document.getElementById('cancelForm').submit();">Confirm</button>
                 </div>
             </div>
         </div>
     </div>
-    
 
     <!-- Bootstrap JS and dependencies (Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
     <script>
-        // JavaScript to handle modals and reschedule form submission
         document.addEventListener("DOMContentLoaded", function () {
             const rescheduleModal = document.getElementById("rescheduleModal");
             const rescheduleForm = document.getElementById("rescheduleForm");
             const newDate = document.getElementById("newDate");
             const newTimeSlot = document.getElementById("newTimeSlot");
-
+    
+            // Handle the reschedule modal show event
             rescheduleModal.addEventListener("show.bs.modal", function (event) {
                 const button = event.relatedTarget;
                 const appointmentId = button.getAttribute("data-id");
                 const doctorId = button.getAttribute("data-doctor");
-
+    
                 document.getElementById("rescheduleAppointmentId").value = appointmentId;
                 document.getElementById("rescheduleDoctorId").value = doctorId;
-
+    
                 // Fetch available dates
                 getAvailableDates(doctorId);
             });
-
+    
             // Fetch available dates for the doctor
             function getAvailableDates(doctorId) {
                 fetch(`/get_available_dates?doctor_id=${doctorId}`)
@@ -335,12 +308,12 @@
                     })
                     .catch(error => console.error("Error fetching available dates:", error));
             }
-
+    
             // Fetch available time slots when a new date is selected
             newDate.addEventListener("change", function () {
                 const selectedDate = newDate.value;
                 const doctorId = document.getElementById("rescheduleDoctorId").value;
-
+    
                 fetch(`/get_available_timeslots?doctor_id=${doctorId}&date=${selectedDate}`)
                     .then(response => response.json())
                     .then(data => {
@@ -355,14 +328,25 @@
                     })
                     .catch(error => console.error("Error fetching available time slots:", error));
             });
-            
+    
+            // Cancel Appointment
+            const cancelModal = document.getElementById("cancelModal");
+            cancelModal.addEventListener("show.bs.modal", function (event) {
+                const button = event.relatedTarget;
+                const appointmentId = button.getAttribute("data-id");
+                const cancelAppointmentId = document.getElementById("cancelAppointmentId");
+                cancelAppointmentId.value = appointmentId;
+            });
+    
             // Handle reschedule submission
             document.getElementById("rescheduleSubmit").addEventListener("click", function () {
                 rescheduleForm.submit();
             });
-           
+        
+        
         });
     </script>
+    
 </body>
 
 </html>
