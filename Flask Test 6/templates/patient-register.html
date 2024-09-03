@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Registration</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e90ff, #87cefa);
+            position: relative;
+            overflow: hidden;
+        }
+        .register-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        .register-container h1 {
+            font-size: 36px;
+            color: #1e90ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-control {
+            border-radius: 30px;
+            padding: 15px;
+            font-size: 16px;
+        }
+        .form-control::placeholder {
+            color: #a9a9a9;
+        }
+        .btn-primary {
+            background-color: #1e90ff;
+            border: none;
+            border-radius: 30px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .btn-primary:hover {
+            background-color: #187bcd;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <form method="POST" action="{{ url_for('register_patient') }}">
+            <h1>Patient Registration</h1>
+            
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            <div class="register-link mt-3">
+                <p>Already have an account? <a href="patient-login">Sign In</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
