@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from flask_mail import Mail, Message
 from apscheduler.schedulers.background import BackgroundScheduler
 import pytz
+#Patient appointment system
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
