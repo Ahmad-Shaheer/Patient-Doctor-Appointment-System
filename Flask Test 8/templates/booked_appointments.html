@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Appointments</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 120px; /* Increased width for better readability */
+            background: linear-gradient(135deg, #1D5C58, #368F8B); /* Gradient background */
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .sidebar a {
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px; /* Increased margin for spacing */
+            border-radius: 10px; /* Rounded corners */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover effect */
+        }
+        
+        .sidebar a:hover {
+            background-color: #165b52; /* Darker shade */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+        
+        
+        .sidebar a i {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .navbar {
+            margin-left: 120px; /* Adjusted for increased sidebar width */
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #1D5C58, #368F8B); /* Gradient background */
+            color: white;
+        }
+        
+        .navbar-brand {
+            color: white;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: linear-gradient(135deg, #1D5C58, #368F8B); /* Gradient for toggler icon */
+        }
+        
+        .nav-link {
+            color: white !important; /* Ensuring text color is white */
+        }
+        
+        
+        .container {
+            margin-left: 150px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #ffffff, #f8f9fa); /* Subtle gradient */
+        }
+        
+        .card-header {
+            background-color: #1D5C58; /* Consistent color */
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            font-weight: bold;
+        }
+        
+        .btn-primary {
+            background-image: linear-gradient(145deg, #160F29, #368F8B); /* Gradient background */
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background-image: linear-gradient(135deg, #3a7bbf, #4cae68); /* Reverse gradient on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .appointment-card {
+            margin-bottom: 20px;
+        }
+        
+        .working-hours-card {
+            margin-bottom: 20px;
+        }
+        
+        
+        .form-control {
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #1D5C58;
+            box-shadow: 0 0 0 0.2rem rgba(29, 92, 88, 0.25);
+        }
+        
+        .form-check-label {
+            color: #1D5C58;
+        }
+        
+        .table thead th {
+            background-color: #1D5C58; /* Updated color */
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="patient_dashboard" title="Home">
+            <i class="bi bi-house-door"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" title="Appointment Booking">
+            <i class="bi bi-calendar"></i>
+            <span>Book</span>
+        </a>
+        
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="https://www.curemd.com/">
+                <i class="bx bx-clinic"></i> CureMD
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="patient_dashboard">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="booked_appointments">Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="patient_dashboard">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Appointments Section -->
+            <div class="col-lg-12">
+                <!-- All Appointments -->
+                <div class="appointment-card card">
+                    <div class="card-header">
+                        All Appointments
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Appointment ID</th>
+                                    <th>Doctor ID</th>
+                                    <th>Appointment Date</th>
+                                    <th>Status</th>
+                                    <th>Reason</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appointment in appointments %}
+                                <tr>
+                                    <td>{{ appointment._id_str }}</td>
+                                    <td>{{ appointment.doctor_name }}</td>
+                                    <td>{{ appointment.date }} {{ appointment.time }}</td>
+                                    <td>{{ appointment.status }}</td>
+                                    <td>{{ appointment.reason }}</td>
+                                    <td>
+                                        <!-- Reschedule Button -->
+                                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#rescheduleModal" data-id="{{ appointment._id }}" data-doctor="{{ appointment.doctor_id }}" data-date="{{ appointment.date }}" data-time="{{ appointment.time }}">Reschedule</button>
+                                        <!-- Cancel Button -->
+                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelModal" data-id="{{ appointment._id }}">Cancel</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Reschedule Modal -->
+     <div class="modal fade" id="rescheduleModal" tabindex="-1" aria-labelledby="rescheduleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rescheduleModalLabel">Reschedule Appointment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="rescheduleForm" action="/reschedule_appointment" method="post">
+                        <input type="hidden" name="appointment_id" id="rescheduleAppointmentId">
+                        <input type="hidden" name="doctor_id" id="rescheduleDoctorId">
+
+                         <!-- Date Selection -->
+                        <label for="newDate" class="form-label">New Date</label>
+                        <select class="form-control" name="new_date" id="newDate" required>
+                            <option value="" disabled selected>Select a date</option>
+                        </select>
+                    
+                        <!-- Time Slot Selection -->
+                        <label for="newTimeSlot" class="form-label mt-2">Available Time Slots</label>
+                        <select class="form-control" name="new_time_slot" id="newTimeSlot" required>
+                            <option value="" disabled selected>Select a time slot</option>
+                        </select>
+                    
+                        <div id="rescheduleError" class="text-danger mt-2" style="display: none;"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="rescheduleSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  <!-- Cancel Modal -->
+
+    <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelModalLabel">Cancel Appointment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to cancel this appointment?</p>
+                    <!-- Form to cancel the appointment -->
+                    <form id="cancelForm" action="/cancel_appointment" method="post">
+                        <input type="hidden" name="appointment_id" id="cancelAppointmentId">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!-- Updated button with onclick event to submit the form -->
+                    <button type="button" class="btn btn-danger" id="cancelSubmit" onclick="document.getElementById('cancelForm').submit();">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rescheduleModal = document.getElementById("rescheduleModal");
+            const rescheduleForm = document.getElementById("rescheduleForm");
+            const newDate = document.getElementById("newDate");
+            const newTimeSlot = document.getElementById("newTimeSlot");
+    
+            // Handle the reschedule modal show event
+            rescheduleModal.addEventListener("show.bs.modal", function (event) {
+                const button = event.relatedTarget;
+                const appointmentId = button.getAttribute("data-id");
+                const doctorId = button.getAttribute("data-doctor");
+    
+                document.getElementById("rescheduleAppointmentId").value = appointmentId;
+                document.getElementById("rescheduleDoctorId").value = doctorId;
+    
+                // Fetch available dates
+                getAvailableDates(doctorId);
+            });
+    
+            // Fetch available dates for the doctor
+            function getAvailableDates(doctorId) {
+                fetch(`/get_available_dates?doctor_id=${doctorId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Populate date dropdown
+                        newDate.innerHTML = '<option value="" disabled selected>Select a date</option>';
+                        data.available_dates.forEach(date => {
+                            const option = document.createElement("option");
+                            option.value = date;
+                            option.textContent = date;
+                            newDate.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error("Error fetching available dates:", error));
+            }
+    
+            // Fetch available time slots when a new date is selected
+            newDate.addEventListener("change", function () {
+                const selectedDate = newDate.value;
+                const doctorId = document.getElementById("rescheduleDoctorId").value;
+    
+                fetch(`/get_available_timeslots?doctor_id=${doctorId}&date=${selectedDate}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Populate time slot dropdown
+                        newTimeSlot.innerHTML = '<option value="" disabled selected>Select a time slot</option>';
+                        data.forEach(timeSlot => {
+                            const option = document.createElement("option");
+                            option.value = timeSlot;
+                            option.textContent = timeSlot;
+                            newTimeSlot.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error("Error fetching available time slots:", error));
+            });
+    
+            // Cancel Appointment
+            const cancelModal = document.getElementById("cancelModal");
+            cancelModal.addEventListener("show.bs.modal", function (event) {
+                const button = event.relatedTarget;
+                const appointmentId = button.getAttribute("data-id");
+                const cancelAppointmentId = document.getElementById("cancelAppointmentId");
+                cancelAppointmentId.value = appointmentId;
+            });
+    
+            // Handle reschedule submission
+            document.getElementById("rescheduleSubmit").addEventListener("click", function () {
+                rescheduleForm.submit();
+            });
+        
+        
+        });
+    </script>
+    
+</body>
+
+</html>

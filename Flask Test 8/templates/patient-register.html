@@ -7,7 +7,8 @@
     
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
     <!-- Custom Styles -->
     <style>
         @keyframes gradient-animation {
@@ -95,9 +96,35 @@
         .register-link a:hover {
             text-decoration: underline;
         }
+
+        nav.navbar {
+            background-color: transparent !important; /* Removes background color */
+            box-shadow: none;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="https://www.curemd.com/">
+                <i class="bx bx-clinic"></i> CureMD
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/index"><i class="bx bx-home"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/patient-login"><i class="bx bx-user"></i> Patients</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/doctor-login"><i class="bx bx-user-md"></i> Doctors</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="register-container">
         <form method="POST" action="{{ url_for('register_patient') }}">
             <h1>Patient Registration</h1>

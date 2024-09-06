@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+     <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+    <!-- jQuery UI JS -->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 120px; /* Increased width for better readability */
+            background: linear-gradient(135deg, #1D5C58, #368F8B); /* Gradient background */
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .sidebar a {
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px; /* Increased margin for spacing */
+            border-radius: 10px; /* Rounded corners */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover effect */
+        }
+        
+        .sidebar a:hover {
+            background-color: #165b52; /* Darker shade */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+        
+        
+        .sidebar a i {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .navbar {
+            margin-left: 120px; /* Adjusted for increased sidebar width */
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #1D5C58, #368F8B); /* Gradient background */
+            color: white;
+        }
+        
+        .navbar-brand {
+            color: white;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: linear-gradient(135deg, #1D5C58, #368F8B); /* Gradient for toggler icon */
+        }
+        
+        .nav-link {
+            color: white !important; /* Ensuring text color is white */
+        }
+        
+        
+        .container {
+            margin-left: 150px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #ffffff, #f8f9fa); /* Subtle gradient */
+        }
+        
+        .card-header {
+            background-color: #1D5C58; /* Consistent color */
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            font-weight: bold;
+        }
+        
+        .btn-primary {
+            background-image: linear-gradient(145deg, #160F29, #368F8B); /* Gradient background */
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background-image: linear-gradient(135deg, #3a7bbf, #4cae68); /* Reverse gradient on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .appointment-card {
+            margin-bottom: 20px;
+        }
+        
+        .working-hours-card {
+            margin-bottom: 20px;
+        }
+        
+        
+        .form-control {
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #1D5C58;
+            box-shadow: 0 0 0 0.2rem rgba(29, 92, 88, 0.25);
+        }
+        
+        .form-check-label {
+            color: #1D5C58;
+        }
+        
+        .table thead th {
+            background-color: #1D5C58; /* Updated color */
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="#" title="Home">
+            <i class="bi bi-house-door"></i>
+            <span>Home</span>
+        </a>
+        <a href="booked_appointments" title="Appointment Booking">
+            <i class="bi bi-calendar"></i>
+            <span>Book</span>
+        </a>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="https://www.curemd.com/">
+                <i class="bx bx-clinic"></i> CureMD
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="patient_dashboard">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="booked_appointments">Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="patient_dashboard">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Profile Section -->
+            <div class="col-lg-4">
+                <div class="profile-card">
+                    <h3>Welcome, {{ patient.name }}</h3>
+                    <p><strong>Email:</strong> {{ patient.email }}</p>
+                </div>
+            </div>
+
+            <!-- Appointments Section -->
+            <div class="col-lg-8">
+                <!-- Upcoming Appointments -->
+                <div class="appointment-card card">
+                    <div class="card-header">
+                        Upcoming Appointments
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Appointment ID</th>
+                                    <th>Doctor ID</th>
+                                    <th>Appointment Date</th>
+                                    <th>Status</th>
+                                    <th>Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appointment in appointments %}
+                                <tr>
+                                    <td>{{ appointment._id_str }}</td>
+                                    <td>{{ appointment.doctor_name }}</td>
+                                    <td>{{ appointment.date }} {{ appointment.time }}</td>
+                                    <td>{{ appointment.status }}</td>
+                                    <td>{{ appointment.reason }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+           
+                <!-- Book New Appointment -->
+<div class="card mt-4">
+    <div class="card-header">
+        Book a New Appointment
+    </div>
+    <div class="card-body">
+        <form id="bookingForm" action="/booked_appointment" method="post">
+            <div class="mb-3">
+                <label for="specialization" class="form-label">Select Specialization</label>
+                <select class="form-select" id="specialization" name="specialization">
+                    <option value="">Select Specialization</option>
+                    {% for specialization in specializations %}
+                    <option value="{{ specialization }}" {% if specialization == selected_specialization %}selected{% endif %}>{{ specialization }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="doctor" class="form-label">Select Doctor</label>
+                <select class="form-select" id="doctor" name="doctor_id">
+                    <option value="">Select Doctor</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="appointment_date" class="form-label">Select Date</label>
+                <select class="form-select" id="appointment_date" name="appointment_date" required>
+                    <option value="">Select Date</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="time_slot" class="form-label">Select Time Slot</label>
+                <select class="form-select" id="time_slot" name="time_slot" disabled>
+                    <option value="">Select Time Slot</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="reason" class="form-label">Reason</label>
+                <input type="text" class="form-control" id="reason" name="reason" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Book Appointment</button>
+        </form>
+    </div>
+</div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery UI CSS -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<!-- jQuery UI JS -->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<script>
+    document.getElementById('specialization').addEventListener('change', function() {
+        var specialization = this.value;
+        var doctorsSelect = document.getElementById('doctor');
+        doctorsSelect.innerHTML = '<option value="">Select Doctor</option>'; // Clear existing options
+        doctorsSelect.disabled = true; // Disable doctor dropdown initially
+
+        if (specialization) {
+            fetch(`/get_doctors?specialization=${specialization}`)
+                .then(response => response.json())
+                .then(doctors => {
+                    if (doctors.length > 0) {
+                        doctorsSelect.disabled = false; // Enable doctor dropdown
+                        doctors.forEach(doctor => {
+                            var option = document.createElement('option');
+                            option.value = doctor._id;
+                            option.text = doctor.name;
+                            doctorsSelect.appendChild(option);
+                        });
+                    } else {
+                        alert('No doctors available for this specialization.');
+                    }
+                })
+                .catch(error => console.error('Error fetching doctors:', error));
+        }
+    });
+
+    document.getElementById('doctor').addEventListener('change', function() {
+        var doctorId = this.value;
+        var date = document.getElementById('appointment_date').value;
+        var timeSlotSelect = document.getElementById('time_slot');
+        timeSlotSelect.innerHTML = '<option value="">Select Time Slot</option>'; // Clear existing options
+        timeSlotSelect.disabled = true; // Disable time slot dropdown initially
+
+        if (doctorId && date) {
+            fetch(`/get_available_timeslots?doctor_id=${doctorId}&date=${date}`)
+                .then(response => response.json())
+                .then(timeSlots => {
+                    if (timeSlots.length > 0) {
+                        timeSlotSelect.disabled = false; // Enable time slot dropdown
+                        timeSlots.forEach(timeSlot => {
+                            var option = document.createElement('option');
+                            option.value = timeSlot;
+                            option.text = timeSlot;
+                            timeSlotSelect.appendChild(option);
+                        });
+                    } else {
+                        alert('No available time slots for the selected date.');
+                    }
+                })
+                .catch(error => console.error('Error fetching time slots:', error));
+        }
+    });
+
+    document.getElementById('appointment_date').addEventListener('change', function() {
+        var doctorId = document.getElementById('doctor').value;
+        var date = this.value;
+        var timeSlotSelect = document.getElementById('time_slot');
+        timeSlotSelect.innerHTML = '<option value="">Select Time Slot</option>'; // Clear existing options
+        timeSlotSelect.disabled = true; // Disable time slot dropdown initially
+
+        if (doctorId && date) {
+            // Check if the selected date is in the future
+            var today = new Date().toISOString().split('T')[0];
+            if (date < today) {
+                alert('Please select a future date.');
+                return;
+            }
+
+            fetch(`/get_available_timeslots?doctor_id=${doctorId}&date=${date}`)
+                .then(response => response.json())
+                .then(timeSlots => {
+                    if (timeSlots.length > 0) {
+                        timeSlotSelect.disabled = false; // Enable time slot dropdown
+                        timeSlots.forEach(timeSlot => {
+                            var option = document.createElement('option');
+                            option.value = timeSlot;
+                            option.text = timeSlot;
+                            timeSlotSelect.appendChild(option);
+                        });
+                    } else {
+                        alert('No available time slots for the selected date.');
+                    }
+                })
+                .catch(error => console.error('Error fetching time slots:', error));
+        }
+    });
+    document.getElementById('doctor').addEventListener('change', function() {
+        var doctorId = this.value;
+        var appointmentDateSelect = document.getElementById('appointment_date');
+        appointmentDateSelect.innerHTML = '<option value="">Select Date</option>'; // Reset the dropdown
+    
+        if (doctorId) {
+            fetch(`/get_available_dates?doctor_id=${doctorId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.available_dates && data.available_dates.length > 0) {
+                        // Limit to the first 14 dates
+                        var dates = data.available_dates.slice(0, 14);
+                        dates.forEach(date => {
+                            var option = document.createElement('option');
+                            option.value = date;
+                            option.textContent = date;
+                            appointmentDateSelect.appendChild(option);
+                        });
+                    } else {
+                        appointmentDateSelect.innerHTML = '<option>No available dates for this doctor.</option>';
+                    }
+                })
+                .catch(error => console.error('Error fetching available dates:', error));
+        }
+    });
+    
+    document.getElementById('appointment_date').addEventListener('change', function() {
+        var doctorId = document.getElementById('doctor').value;
+        var date = this.value;
+        var timeSlotSelect = document.getElementById('time_slot');
+        timeSlotSelect.innerHTML = '<option value="">Select Time Slot</option>'; // Clear existing options
+        timeSlotSelect.disabled = true; // Disable time slot dropdown initially
+    
+        if (doctorId && date) {
+            // Check if the selected date is in the future
+            var today = new Date().toISOString().split('T')[0];
+            if (date < today) {
+                alert('Please select a future date.');
+                return;
+            }
+    
+            fetch(`/get_available_timeslots?doctor_id=${doctorId}&date=${date}`)
+                .then(response => response.json())
+                .then(timeSlots => {
+                    if (timeSlots.length > 0) {
+                        timeSlotSelect.disabled = false; // Enable time slot dropdown
+                        timeSlots.forEach(timeSlot => {
+                            var option = document.createElement('option');
+                            option.value = timeSlot;
+                            option.text = timeSlot;
+                            timeSlotSelect.appendChild(option);
+                        });
+                    } else {
+                        alert('No available time slots for the selected date.');
+                    }
+                })
+                .catch(error => console.error('Error fetching time slots:', error));
+        }
+    });
+
+
+
+    </script>
+</body>
+
+</html>

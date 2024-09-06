@@ -13,15 +13,30 @@
     
     <!-- Custom Styles -->
     <style>
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1e90ff, #87cefa);
+            background: linear-gradient(135deg, #4cae68, #3a7bbf, #4cae68);
+            background-size: 200% 200%;
+            animation: gradient-animation 40s ease infinite;
             position: relative;
             overflow: hidden;
         }
+        
         .background-title {
             position: absolute;
             top: 50%;
@@ -33,73 +48,96 @@
             z-index: 0;
             font-weight: bold;
         }
+        
         .login-container {
             width: 100%;
             max-width: 420px;
             padding: 30px;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             position: relative;
             z-index: 1;
         }
+        
         .login-container h1 {
             font-size: 36px;
-            color: #1e90ff;
+            color: #1D5C58; /* Updated to match the gradient color */
             text-align: center;
             margin-bottom: 30px;
         }
+        
         .form-control {
             border-radius: 30px;
             padding: 15px;
             font-size: 16px;
         }
+        
         .form-control::placeholder {
             color: #a9a9a9;
         }
+        
         .btn-primary {
-            background-color: #1e90ff;
+            background-image: linear-gradient(145deg, #4cae68, #3a7bbf); /* Gradient from green to blue */
             border: none;
-            border-radius: 30px;
-            padding: 15px;
-            font-size: 16px;
-            font-weight: bold;
+            border-radius: 20px; /* Rounded corners */
+            padding: 10px 20px; /* Adjusted padding */
+            font-size: 16px; /* Font size */
+            color: white;
+            transition: all 0.3s ease; /* Smooth transition for hover effect */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Light shadow for a 3D effect */
         }
+        
         .btn-primary:hover {
-            background-color: #187bcd;
+            background-image: linear-gradient(135deg, #3a7bbf, #4cae68); /* Reverse gradient on hover */
+            transform: translateY(-3px); /* Subtle lift on hover */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
         }
+        
         .form-check-label {
-            color: #1e90ff;
+            color: #4cae68; /* Updated to match the gradient color */
         }
+        
         .form-check-input:checked {
-            background-color: #1e90ff;
-            border-color: #1e90ff;
+            background-color: #4cae68; /* Updated to match the gradient color */
+            border-color: #4cae68; /* Updated to match the gradient color */
         }
+        
         .forgot-password, .register-link, .switch-login {
             text-align: center;
-            color: #1e90ff;
+            color: #2F4F4F; /* Updated to match the gradient color */
         }
+        
         .forgot-password a, .register-link a, .switch-login a {
-            color: #1e90ff;
+            color: #2F4F4F; /* Updated to match the gradient color */
             text-decoration: none;
         }
+        
         .forgot-password a:hover, .register-link a:hover, .switch-login a:hover {
             text-decoration: underline;
         }
+        
         .btn-secondary {
-            background-color: #87cefa;
+            background-image: linear-gradient(145deg, #160F29, #368F8B); /* Gradient from dark blue to teal green */
             border: none;
-            border-radius: 30px;
-            padding: 10px;
+            border-radius: 20px;
+            padding: 10px 20px;
             font-size: 16px;
-            color: #1e90ff;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
+        
         .btn-secondary:hover {
-            background-color: #77b4e0;
+            background-image: linear-gradient(135deg, #3a7bbf, #4cae68); /* Reverse gradient on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         }
+        
         .alert {
             margin-top: 20px;
         }
+        
     </style>
 </head>
 <body>

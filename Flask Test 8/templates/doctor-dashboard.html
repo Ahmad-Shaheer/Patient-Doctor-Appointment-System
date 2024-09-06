@@ -17,8 +17,8 @@
             top: 0;
             bottom: 0;
             left: 0;
-            width: 120px;
-            background-color: #1D5C58; /* Updated color */
+            width: 120px; /* Increased width for better readability */
+            background: linear-gradient(135deg, #1D5C58, #368F8B); /* Gradient background */
             padding-top: 20px;
             display: flex;
             flex-direction: column;
@@ -29,20 +29,22 @@
         .sidebar a {
             color: #ffffff;
             text-align: center;
-            padding: 15px 20px;
+            padding: 15px;
             width: 100%;
             text-decoration: none;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            transition: background-color 0.2s ease;
+            margin-bottom: 20px; /* Increased margin for spacing */
+            border-radius: 10px; /* Rounded corners */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover effect */
         }
         
         .sidebar a:hover {
             background-color: #165b52; /* Darker shade */
+            transform: scale(1.05); /* Slightly enlarge on hover */
         }
+        
         
         .sidebar a i {
             font-size: 24px;
@@ -50,9 +52,24 @@
         }
         
         .navbar {
-            margin-left: 130px;
+            margin-left: 120px; /* Adjusted for increased sidebar width */
             margin-bottom: 20px;
+            background: linear-gradient(135deg, #1D5C58, #368F8B); /* Gradient background */
+            color: white;
         }
+        
+        .navbar-brand {
+            color: white;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: linear-gradient(135deg, #1D5C58, #368F8B); /* Gradient for toggler icon */
+        }
+        
+        .nav-link {
+            color: white !important; /* Ensuring text color is white */
+        }
+        
         
         .container {
             margin-left: 150px;
@@ -62,17 +79,32 @@
             border: none;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #ffffff, #f8f9fa); /* Subtle gradient */
         }
         
         .card-header {
-            background-color: #1D5C58; /* Updated color */
+            background-color: #1D5C58; /* Consistent color */
             color: white;
             border-top-left-radius: 15px;
             border-top-right-radius: 15px;
+            font-weight: bold;
         }
         
-        .card-body {
-            padding: 20px;
+        .btn-primary {
+            background-image: linear-gradient(145deg, #160F29, #368F8B); /* Gradient background */
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background-image: linear-gradient(135deg, #3a7bbf, #4cae68); /* Reverse gradient on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         }
         
         .appointment-card {
@@ -83,14 +115,22 @@
             margin-bottom: 20px;
         }
         
-        .btn-primary {
-            background-color: #1D5C58; /* Updated color */
-            border-color: #1D5C58; /* Updated color */
+        
+        .form-control {
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s ease;
         }
         
-        .btn-primary:hover {
-            background-color: #165b52; /* Darker shade */
-            border-color: #165b52; /* Darker shade */
+        .form-control:focus {
+            border-color: #1D5C58;
+            box-shadow: 0 0 0 0.2rem rgba(29, 92, 88, 0.25);
+        }
+        
+        .form-check-label {
+            color: #1D5C58;
         }
         
         .table thead th {
@@ -118,7 +158,9 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Doctor Dashboard</a>
+            <a class="navbar-brand" href="https://www.curemd.com/">
+                <i class="bx bx-clinic"></i> CureMD
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -154,8 +196,8 @@
                             <thead>
                                 <tr>
                                     <th>Appointment ID</th>
-                                    <th>Patient ID</th>
-                                    <th>Appointment Date</th>
+                                    <th>Patient Name</th>
+                                    <th>Appointment Time</th>
                                     <th>Status</th>
                                     <th>Reason</th>
                                     <th>Actions</th>
