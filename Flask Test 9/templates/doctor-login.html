@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CureMD Appointment Management System - Login</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Boxicons CSS -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4cae68, #3a7bbf, #4cae68);
+            background-size: 200% 200%;
+            animation: gradient-animation 40s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .background-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 6rem;
+            white-space: nowrap;
+            z-index: 0;
+            font-weight: bold;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .login-container h1 {
+            font-size: 36px;
+            color: #1D5C58; /* Updated to match the gradient color */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-control {
+            border-radius: 30px;
+            padding: 15px;
+            font-size: 16px;
+        }
+        
+        .form-control::placeholder {
+            color: #a9a9a9;
+        }
+        
+        .btn-primary {
+            background-image: linear-gradient(145deg, #4cae68, #3a7bbf); /* Gradient from green to blue */
+            border: none;
+            border-radius: 20px; /* Rounded corners */
+            padding: 10px 20px; /* Adjusted padding */
+            font-size: 16px; /* Font size */
+            color: white;
+            transition: all 0.3s ease; /* Smooth transition for hover effect */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Light shadow for a 3D effect */
+        }
+        
+        .btn-primary:hover {
+            background-image: linear-gradient(135deg, #3a7bbf, #4cae68); /* Reverse gradient on hover */
+            transform: translateY(-3px); /* Subtle lift on hover */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+        }
+        
+        .form-check-label {
+            color: #4cae68; /* Updated to match the gradient color */
+        }
+        
+        .form-check-input:checked {
+            background-color: #4cae68; /* Updated to match the gradient color */
+            border-color: #4cae68; /* Updated to match the gradient color */
+        }
+        
+        .forgot-password, .register-link, .switch-login {
+            text-align: center;
+            color: #2F4F4F; /* Updated to match the gradient color */
+        }
+        
+        .forgot-password a, .register-link a, .switch-login a {
+            color: #2F4F4F; /* Updated to match the gradient color */
+            text-decoration: none;
+        }
+        
+        .forgot-password a:hover, .register-link a:hover, .switch-login a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-secondary {
+            background-image: linear-gradient(145deg, #160F29, #368F8B); /* Gradient from dark blue to teal green */
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background-image: linear-gradient(135deg, #3a7bbf, #4cae68); /* Reverse gradient on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+        nav.navbar {
+            background-color: transparent !important; /* Removes background color */
+            box-shadow: none;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        footer.footer {
+            
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .footer {
+            width: 70%;
+            background-color: #003366; /* Dark blue background for contrast */
+            color: #000080; /* Light grey text color for readability */
+            padding: 30px 0; /* Increase padding for a thicker footer */
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .footer a {
+            color: #000080; /* Light grey text color for links */
+            text-decoration: none;
+            margin: 0 15px; /* Spacing between links */
+        }
+        
+        .footer a:hover {
+            color: #ffcc00; /* Yellow color for links on hover */
+            text-decoration: underline; /* Underline on hover */
+        }
+        
+        .footer .list-inline {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        
+        .footer .list-inline-item {
+            display: inline-block;
+            margin: 0 15px; /* Increase spacing between items */
+        }
+        .alert {
+            margin-top: 20px;
+        }
+        
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="https://www.curemd.com/">
+                <i class="bx bx-clinic"></i> CureMD
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/index"><i class="bx bx-home"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/patient-login"><i class="bx bx-user"></i> Patients</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/doctor-login"><i class="bx bx-user-md"></i> Doctors</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="login-container">
+        <form action="/doctor-login" method="POST"> 
+            <h1>Doctor Login</h1>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="rememberMe">
+                <label class="form-check-label" for="rememberMe">Remember Me</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+            
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    <div class="alert alert-{{ messages[0][0] }}">
+                        {{ messages[0][1] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <div class="forgot-password my-3">
+                <a href="#">Forgot Password?</a>
+            </div>
+            <div class="register-link">
+                <p>Don't have an account? <a href="index">Register</a></p>
+            </div>
+            <div class="switch-login mt-3">
+                <p>Not a doctor? <a href="patient-login">Sign in as Patient</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function switchLogin() {
+            if (confirm("Do you want to switch login type?")) {
+                window.location.href = 'switch-login.html'; // Adjust this URL based on your logic
+            }
+        }
+    </script>
+</body>
+</html>

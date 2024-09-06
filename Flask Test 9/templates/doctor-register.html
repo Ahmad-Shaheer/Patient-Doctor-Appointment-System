@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CureMD Appointment Management System - Doctor Registration</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Boxicons CSS -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4cae68, #3a7bbf, #4cae68);
+            background-size: 200% 200%;
+            animation: gradient-animation 40s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .register-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9); /* Slightly less opaque */
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .register-container h1 {
+            font-size: 36px;
+            color: #2F4F4F; /* Dark Slate Gray */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .btn-primary {
+            background-image: linear-gradient(145deg, #160F29, #368F8B); /* Gradient from green to blue */
+            border: none;
+            border-radius: 20px; /* Rounded corners */
+            padding: 10px 20px; /* Reduced padding for a smaller size */
+            font-size: 16px; /* Smaller font size */
+            color: white;
+            transition: all 0.3s ease; /* Smooth transition for hover effect */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Light shadow for a 3D effect */
+        }
+        
+        .btn-primary:hover {
+            background-image: linear-gradient(135deg, #3a7bbf, #4cae68); /* Reverse gradient on hover */
+            transform: translateY(-3px); /* Subtle lift on hover */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+        }
+        
+        .form-control {
+            border-radius: 30px;
+            padding: 15px;
+            font-size: 16px;
+        }
+        
+        .form-control::placeholder {
+            color: #a9a9a9;
+        }
+        
+        .form-check-label, .register-link {
+            color: #2F4F4F; /* Dark Slate Gray */
+        }
+        
+        .form-check-input:checked {
+            background-color: #1D5C58; /* Updated color */
+            border-color: #1D5C58; /* Updated color */
+        }
+        
+        .register-link a {
+            color: #1D5C58; /* Updated color */
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        nav.navbar {
+            background-color: transparent !important; /* Removes background color */
+            box-shadow: none;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="https://www.curemd.com/">
+                <i class="bx bx-clinic"></i> CureMD
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/index"><i class="bx bx-home"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/patient-login"><i class="bx bx-user"></i> Patients</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/doctor-login"><i class="bx bx-user-md"></i> Doctors</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="register-container">
+        <form action="{{ url_for('register_doctor') }}" method="POST">
+            <h1>Doctor Registration</h1>
+    
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            <div class="register-link mt-3">
+                <p>Already have an account? <a href="doctor-login">Sign In</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

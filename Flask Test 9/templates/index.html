@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CureMD Appointment Management System - Welcome</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Boxicons CSS -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        body {
+            background: linear-gradient(135deg, #4cae68, #3a7bbf, #4cae68);
+            background-size: 200% 200%; /* Double the background size to allow for smooth movement */
+            animation: gradient-animation 40s ease infinite; /* 10s duration, easing, infinite loop */
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .background-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 6rem;
+            white-space: nowrap;
+            z-index: 0;
+            font-weight: bold;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            background: none; /* Remove the background color */
+            box-shadow: none; /* Remove the box shadow */
+            border-radius: 0; /* Remove the border radius */
+        }
+        
+        
+        .login-container h1 {
+            font-size: 40px;
+            color: #AFD2E9; /* Warm yellow for high contrast */
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Adds a subtle shadow for better contrast */
+            z-index: 2; /* Ensure it is above other elements */
+        }
+        
+        
+        
+        .btn-secondary {
+            background-image: linear-gradient(145deg, #160F29, #368F8B); /* Gradient from green to blue */
+            border: none;
+            border-radius: 20px; /* Rounded corners */
+            padding: 10px 20px; /* Reduced padding for a smaller size */
+            font-size: 16px; /* Smaller font size */
+            color: white;
+            transition: all 0.3s ease; /* Smooth transition for hover effect */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Light shadow for a 3D effect */
+        }
+        
+        .btn-secondary:hover {
+            background-image: linear-gradient(135deg, #3a7bbf, #4cae68); /* Reverse gradient on hover */
+            transform: translateY(-3px); /* Subtle lift on hover */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+        }
+        
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .register-link {
+            font-size: 16px;
+            color: #003333; /* Darker shade of green for congruence */
+        }
+        
+        .register-link a {
+            color: #4cae68; /* Green to match the gradient */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+            color: #3a7bbf; /* Blue to match the gradient on hover */
+        }
+
+        nav.navbar {
+            background-color: transparent !important; /* Removes background color */
+            box-shadow: none;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        footer.footer {
+            
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .footer {
+            width: 70%;
+            background-color: #003366; /* Dark blue background for contrast */
+            color: #000080; /* Light grey text color for readability */
+            padding: 30px 0; /* Increase padding for a thicker footer */
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .footer a {
+            color: #000080; /* Light grey text color for links */
+            text-decoration: none;
+            margin: 0 15px; /* Spacing between links */
+        }
+        
+        .footer a:hover {
+            color: #ffcc00; /* Yellow color for links on hover */
+            text-decoration: underline; /* Underline on hover */
+        }
+        
+        .footer .list-inline {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        
+        .footer .list-inline-item {
+            display: inline-block;
+            margin: 0 15px; /* Increase spacing between items */
+        }
+        
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="https://www.curemd.com/">
+                <i class="bx bx-clinic"></i> CureMD
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/"><i class="bx bx-home"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/patient-login"><i class="bx bx-user"></i> Patients</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/doctor-login"><i class="bx bx-user-md"></i> Doctors</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+   
+    
+    <div class="login-container">
+        <h1>Welcome to CureMD</h1>
+        <div class="btn-container">
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='register-doctor';">Register as Doctor</button>
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='register-patient';">Register as Patient</button>
+        </div>
+        <div class="register-link">
+            <p>Already have an account? <a href="patient-login">Sign In</a></p>
+        </div>
+    </div>
+    <footer class="footer bg-dark text-light py-4">
+        <div class="container">
+            <div class="row">
+                <!-- About and Help Links -->
+                <div class="col-md-6">
+                    <ul class="list-inline mb-3">
+                        <li class="list-inline-item"><a href="/about" class="text-white">About Us</a></li>
+                        <li class="list-inline-item"><a href="/help" class="text-white">Help</a></li>
+                    </ul>
+                </div>
+                <!-- Social Media Links -->
+                <div class="col-md-6 text-md-right">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item">
+                            <a href="https://facebook.com/yourpage" target="_blank" class="text-white">
+                                <i class="bx bxl-facebook-circle"></i> Facebook
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://twitter.com/yourprofile" target="_blank" class="text-white">
+                                <i class="bx bxl-twitter"></i> Twitter
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://instagram.com/yourprofile" target="_blank" class="text-white">
+                                <i class="bx bxl-instagram"></i> Instagram
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
