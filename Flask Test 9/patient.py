@@ -242,16 +242,16 @@ class Doctor:
         else:
             return False
 
-    def register(self, username, password, full_name, email, phone):
+    def register(self, username, password, full_name, email, phone, specialization):
         if self.collection.find_one({'username': username}):
             return {'success': False, 'message': 'Username already exists!'}
         
         self.collection.insert_one({
-            'username': username,
+            'name': username,
             'password': password,  # Password should be hashed in production
-            'full_name': full_name,
             'email': email,
-            'phone': phone
+            'phone': phone,
+            'specialization' : specialization
         })
         return {'success': True, 'message': 'Registration successful! Please log in.'}
     def set_working_hours(self, username, days, start_time_str, end_time_str):
@@ -526,12 +526,13 @@ def register_doctor():
         full_name = request.form.get('full_name')
         email = request.form.get('email')
         phone = request.form.get('phone')
+        specialization = request.form.get('specialization')  # New field
 
-        if not all([username, password, full_name, email, phone]):
+        if not all([username, password, full_name, email, phone, specialization]):
             flash('All fields are required!', 'danger')
             return redirect(url_for('register_doctor'))
 
-        result = doctor_manager.register(username, password, full_name, email, phone)
+        result = doctor_manager.register(username, password, full_name, email, phone, specialization)
         if result['success']:
             flash(result['message'], 'success')
             return redirect(url_for('doctor_login'))
