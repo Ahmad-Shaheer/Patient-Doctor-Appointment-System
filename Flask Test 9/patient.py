@@ -24,6 +24,11 @@ app.config['MAIL_DEFAULT_SENDER'] = 'your_email@example.com'
 mail = Mail(app)
 
 
+
+'''Class Implementatiom'''
+
+
+
 class User:
     def __init__(self, user_id, name, email):
         self.user_id = user_id
@@ -427,7 +432,11 @@ doctor_manager = Doctor(mongo.db)
 availability_manager = Availability(mongo.db)
 patient_manager = Patient(mongo.db)
 
-''' Helping Functions'''
+
+
+''' API Endpoints For Appointments'''
+
+
 
 @app.route('/postpone_appointment', methods=['POST'])
 def postpone_appointment():
@@ -441,6 +450,7 @@ def get_doctors():
     specialization = request.args.get('specialization')
     result = doctor_manager.get_doctors(specialization)
     return jsonify(result)
+
 
 @app.route('/get_available_timeslots', methods=['GET'])
 def get_available_timeslots():
@@ -458,16 +468,18 @@ def get_available_dates():
 
 
 
+'''Login Pages'''
+
 
 
 @app.route('/')
 def home():
     return redirect(url_for('index'))
+
+
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
-
-
 
 
 @app.route('/doctor-login', methods=['GET', 'POST'])
@@ -483,6 +495,7 @@ def doctor_login():
 
     return render_template('doctor-login.html')
 
+
 @app.route('/patient-login', methods=['GET', 'POST'])
 def patient_login():
     if request.method == 'POST':
@@ -495,6 +508,7 @@ def patient_login():
             flash('Invalid username or password', 'error')
 
     return render_template('patient-login.html')
+
 
 @app.route('/register-patient', methods=['GET', 'POST'])
 def register_patient():
@@ -517,6 +531,7 @@ def register_patient():
             flash(result['message'], 'danger')
 
     return render_template('patient-register.html')
+
 
 @app.route('/register-doctor', methods=['GET', 'POST'])
 def register_doctor():
@@ -597,6 +612,11 @@ def book_appointment():
         return redirect(url_for('patient_dashboard'))
     
     
+    
+''' API Endpoints for Patients'''
+    
+    
+    
 @app.route('/booked_appointments')
 def manage_appointments():
     if 'username' not in session:
@@ -656,6 +676,7 @@ def cancel_appointment():
 
 
 
+
 ''' Doctor DashBoard Functionality'''
 
 
@@ -701,6 +722,8 @@ def doctor_dashboard():
         print(type(appointment['appointment_id']))
     return render_template('doctor-dashboard.html', doctor=doctor, doctor_name= doctor_name, appointments=appointments)
 
+'''API endpoints for Doctors'''
+
 @app.route('/set_working_hours', methods=['POST'])
 def set_working_hours():
     if 'username' not in session:
@@ -720,6 +743,12 @@ def set_working_hours():
         flash(result["error"], 'danger')
 
     return redirect(url_for('doctor_dashboard'))
+
+
+
+'''Logout Functionality'''
+
+
 
 @app.route('/logout', methods=['POST', 'GET'])
 def logout():
